@@ -19,7 +19,7 @@ app.filter('mapGender', function () {
 
 
 let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nService, $controller, uiGridConstants) {
-    let gender = [ { value: '1', label: 'male' }, { value: '2', label: 'female' }, { value: '3', label: 'other'} ];
+    let genders = [ { value: '1', label: 'male' }, { value: '2', label: 'female' }, { value: '3', label: 'other'} ];
     $scope.bunchEditAble = 0;
     $scope.paginationPageSizes = [10, 20, 30, 50, 100];
     $scope.paginationPageSize = 100;
@@ -109,7 +109,7 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
         enableFiltering: true,
         filter: {
             type: uiGridConstants.filter.SELECT,
-            selectOptions: gender
+            selectOptions: genders
         },
         enableColumnMenu: false
     }, {
@@ -209,6 +209,35 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
 
     };
 
+
+    $scope.showAddForm = function(){
+        $("#divAddForm").toggle();
+    };
+
+    $scope.add = function(){
+        console.log($scope);
+        if($scope.frmAccount.$valid){
+            $("#frmAccount").submit();
+        }
+        else{
+            $scope.doFocus();
+        }
+    };
+
+    $scope.doFocus = function(){
+        //focus on error input
+        if($scope.frmAccount.$error){
+            if($scope.frmAccount.$error.required){
+                $scope.frmAccount.$error.required[0].$$element.focus();
+            }else if($scope.frmAccount.$error.pattern){
+                $scope.frmAccount.$error.pattern[0].$$element.focus();
+            }else if($scope.frmAccount.$error.exist){
+                $scope.frmAccount.$error.exist[0].$$element.focus();
+            }else if($scope.frmAccount.$error.unique){
+                $scope.frmAccount.$error.unique[0].$$element.focus();
+            }
+        }
+    };
 //======================================================================================================================
     $scope.articles = $scope.getData();
 

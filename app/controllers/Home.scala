@@ -13,6 +13,5 @@ class Home @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
       Ok(views.html.main(content))
   }
 
-
 }
             

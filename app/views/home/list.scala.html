@@ -1,4 +1,5 @@
 @()
+
 <div class="container" ng-controller="ListController">
     <div class="row">
         <div class="col-md-12"><h1>Example of 10.000 records data</h1></div>
@@ -9,5 +10,102 @@
         ui-grid-selection
         ui-grid-pagination
         class="grid gridStyle myGrid"></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-12"><button type="button" class="btn btn-primary" ng-click="showAddForm()">Show/Hide adding form</button></div>
+    </div>
+    @*style="display: none;"*@
+    <div class="row" id="divAddForm">
+        <div class="col-md-12"><h2>Account</h2></div>
+        <form name="frmAccount" id="frmAccount">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="has-error">{{frmAccount.username.$error.$required}}</div>
+                    <div class="has-error">{{frmAccount.username.$error.$pattern}}</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="has-error">{{frmAccount.password.$error.$required}}</div>
+                    <div class="has-error">{{frmAccount.password.$error.$pattern}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="jp_name">JP Name</label>
+                        <input type="text" class="form-control" id="jp_name">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" required aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="text" class="form-control" id="website">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="has-error">{{frmAccount.email.$error.$required}}</div>
+                    <div class="has-error">{{frmAccount.email.$error.$pattern}}</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="has-error">{{frmAccount.website.$error.$pattern}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <ng-form name="genderGroup" ng-repeat="(key,value) in genders track by $index">
+                            <label for="gender">
+                                <input type="radio" class="form-control" id="gender" name="gender" value="{{value.value}}"/> {{value.label}}
+                            </label>
+                        </ng-form>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" class="form-control" id="age" maxlength="3">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" ng-click="add()">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
