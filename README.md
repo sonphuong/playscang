@@ -1,21 +1,34 @@
-[<img src="https://img.shields.io/travis/playframework/play-scala-anorm-example.svg"/>](https://travis-ci.org/playframework/play-scala-anorm-example)
+# play scala anorm angularjs example
 
-# play-scala-anorm-example
+# install
+`git clone https://github.com/sonphuong/playscang`
 
-This is an example Play application that uses Scala on the front end, and communicates with an in memory database using Anorm.
+#common errors 
+If you get this error: _/javaxxmlbind/DatatypeConverter, shutting down JVM..._
 
-## Play
+Solution:
 
-Play documentation is here:
+Make sure you have this line in your build.sbt 
+`libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.1"`
 
-[https://playframework.com/documentation/latest/Home](https://playframework.com/documentation/latest/Home)
+If you get this error: _/Jquery: Refused to apply inline style because it violates the following_ 
 
-## Anorm
+Solution:
 
-Anorm is a Scala ORM library that uses SQL:
+add this line to application.conf
+`play.filters.headers.contentSecurityPolicy = "script-src 'self' 'unsafe-inline' jquery.min.js;"` 
 
-[https://www.playframework.com/documentation/2.5.x/ScalaAnorm](https://www.playframework.com/documentation/2.5.x/ScalaAnorm)
+#connect to a database
+add those lines to build.sbt file
+`libraryDependencies += jdbc
+libraryDependencies += "com.h2database" % "h2" % "1.4.194"`
 
-and
+add those lines to application.conf
+`db.default.driver=org.h2.Driver
+db.default.url="jdbc:h2:mem:play"`
+ 
+#using evolutions
+add those lines to build.sbt file
+`libraryDependencies += evolutions `
 
-[https://cchantep.github.io/anorm/](https://cchantep.github.io/anorm/)
+
