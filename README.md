@@ -3,7 +3,7 @@
 # install
 `git clone https://github.com/sonphuong/playscang`
 
-#common errors 
+# common errors 
 If you get this error: _/javaxxmlbind/DatatypeConverter, shutting down JVM..._
 
 Solution:
@@ -18,7 +18,7 @@ Solution:
 add this line to application.conf
 `play.filters.headers.contentSecurityPolicy = "script-src 'self' 'unsafe-inline' jquery.min.js;"` 
 
-#connect to a database
+# connect to a database
 add those lines to build.sbt file
 `libraryDependencies += jdbc
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"`
@@ -27,7 +27,7 @@ add those lines to application.conf
 `db.default.driver=org.h2.Driver
 db.default.url="jdbc:h2:mem:play"`
  
-#using evolutions
+# using evolutions
 add those lines to build.sbt file
 `libraryDependencies += evolutions `
 
