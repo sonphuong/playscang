@@ -1,4 +1,4 @@
-name := "play-scala-anorm-example"
+name := "playscang"
 
 version := "2.6.0-SNAPSHOT"
 
@@ -11,6 +11,7 @@ libraryDependencies += jdbc
 libraryDependencies += evolutions
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
-
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.3"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.0" % Test
+libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.1"
+libraryDependencies += filters
