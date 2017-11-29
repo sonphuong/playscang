@@ -11,6 +11,7 @@ libraryDependencies += jdbc
 libraryDependencies += evolutions
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.3"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.0" % Test
 libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.1"

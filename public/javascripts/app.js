@@ -198,7 +198,8 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
      *
      */
     $scope.getData = function () {
-        let url = "assets/data/10000_complex.json";
+        //let url = "assets/data/10000_complex.json";
+        let url = "/account/getData";
         $http.get(url).then(rp =>{
             let gridData = rp.data;
             gridData.forEach(function (gdata, key) {
