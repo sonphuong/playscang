@@ -23,13 +23,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" required>
+                        <input type="text" class="form-control" id="username" name="username" required ng-model="accountForm.username">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required ng-model="accountForm.password">
                     </div>
                 </div>
             </div>
@@ -47,13 +47,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="jp_name">JP Name</label>
-                        <input type="text" class="form-control" id="jp_name">
+                        <input type="text" class="form-control" id="jp_name" name="jp_name" ng-model="accountForm.jp_name">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" name="name" ng-model="accountForm.name">
                     </div>
                 </div>
             </div>
@@ -61,14 +61,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" required aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" class="form-control" id="email" name="email" required aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="text" class="form-control" id="website">
+                        <input type="text" class="form-control" id="website" name="website" ng-model="accountForm.website">
                     </div>
                 </div>
             </div>
@@ -84,17 +84,18 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <ng-form name="genderGroup" ng-repeat="(key,value) in genders track by $index">
+                        <input type="radio" id="gender" name="gender" value="1" ng-model="accountForm.gender">
+                        @*<ng-form name="genderGroup" ng-repeat="(key,value) in genders track by $index">
                             <label for="gender">
                                 <input type="radio" class="form-control" id="gender" name="gender" value="{{value.value}}"/> {{value.label}}
                             </label>
-                        </ng-form>
+                        </ng-form>*@
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="age">Age</label>
-                        <input type="text" class="form-control" id="age" maxlength="3">
+                        <input type="text" class="form-control" id="age" name="age" maxlength="3" ng-model="accountForm.age">
                     </div>
                 </div>
             </div>

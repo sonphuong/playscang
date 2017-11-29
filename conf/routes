@@ -4,7 +4,9 @@
 
 # Default path will just redirect to the computer list
 GET     /                           controllers.AccountController.index
-#GET     /account/add                           controllers.AccountController.add
+GET     /account/index                           controllers.AccountController.index
++ nocsrf #to avoid check csrf
+POST     /account/add                           controllers.AccountController.add
 GET     /account/getData                           controllers.AccountController.getData
 #GET     /account/edit/:id                           controllers.Account.edit
 #GET     /account/delete/:id                           controllers.Account.delete

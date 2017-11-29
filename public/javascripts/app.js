@@ -215,10 +215,25 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
         $("#divAddForm").toggle();
     };
 
+    $scope.accountForm = {
+        name:"",
+        jp_name:"",
+        username:"",
+        password:"",
+        email:"",
+        website:"",
+        age:"",
+        gender:""
+    };
+
     $scope.add = function(){
         console.log($scope);
         if($scope.frmAccount.$valid){
-            $("#frmAccount").submit();
+            let url = "/account/add";
+            let data = $scope.accountForm;
+            $http.post(url,data).then(rp =>{
+                console.log(rp.data)
+            });
         }
         else{
             $scope.doFocus();
