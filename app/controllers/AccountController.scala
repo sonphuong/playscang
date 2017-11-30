@@ -61,11 +61,13 @@ class AccountController @Inject()(AccountService: AccountRepository,
   }
 
   def add = Action{ implicit request =>
-
+    val mapResult = scala.collection.mutable.Map[String, String]()
     accountForm.bindFromRequest.fold(
       formWithErrors => {
         // binding failure, you retrieve the form containing errors:
-        Ok(Json.toJson(Map("success" -> 0)))
+        mapResult.put("success", "0")
+        mapResult.put("msg", "bind form fail")
+        Ok(Json.toJson(mapResult.toMap))
       },
       acountData => {
         /* binding success, you get the actual value. */
@@ -80,15 +82,15 @@ class AccountController @Inject()(AccountService: AccountRepository,
           acountData.gender
         )
         val result = AccountService.insert(account)
-        val mapResult = scala.collection.mutable.Map[String, String]()
-        if (result.toString == "success") {
+        if (result) {
           mapResult.put("success", "1")
         } else {
           mapResult.put("success", "0")
-          mapResult.put("msg", result.toString)
+          //mapResult.put("msg", result.toString)
         }
         Ok(Json.toJson(mapResult.toMap))
       }
+
     )
   }
 

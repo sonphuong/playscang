@@ -140,19 +140,14 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
         cellTemplate: $scope.getCellTemplate('action')
     }];
 
-    /**
-     * set default language to japanese for grid when init
-     */
-    $scope.initGrid = function () {
-        i18nService.setCurrentLang('ja');
-    };
 
     $scope.gridOptions = {
-        init: $scope.initGrid(),
-        i18n: 'ja',
+        //init: i18nService.setCurrentLang('ja'),
+        //i18n: 'ja',
         columnDefs: columnDefs,
         rowHeight:40,
-        enableGridMenu: false,
+        //enableGridMenu: true,
+        //exporterCsvFilename: '10000_records.csv',
         enableSelectAll: true,
         enableColumnResizing: true,
         enableFiltering: true,

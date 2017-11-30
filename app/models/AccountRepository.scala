@@ -4,13 +4,16 @@
 package models
 
 import anorm._
-import anorm.{ Macro, RowParser}
+import anorm.{Macro, RowParser}
 import play.api.db.DBApi
 import play.api.libs.json.{JsValue, Json, Writes}
 import javax.inject.Inject
+import play.api.Logger
 import controllers.AccountData
+import infra.SQLDebugger
 
 case class Account (
+                     var id: Int,
                      var name: Option[String],
                      var jp_name: Option[String],
                      var username: String,
@@ -28,6 +31,7 @@ object Account {
   implicit val implicitAccountWrites = new Writes[Account] {
     def writes(account: Account): JsValue = {
       Json.obj(
+        "id" -> account.id,
         "name" -> account.name,
         "jp_name" -> account.jp_name,
         "username" -> account.username,
@@ -68,26 +72,34 @@ class AccountRepository @Inject()(dbapi: DBApi){
 
   }
 
+
   /**
     *
     */
-  def insert(account:AccountData) = {
+  def insert(account:AccountData):Boolean = {
     db.withConnection{ implicit connection =>
       val sql =
-        s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,created_on,updated_on)
-           |VALUES (
-           |${account.name},
-           |${account.jp_name},
-           |${account.username},
-           |${account.password},
-           |${account.email},
-           |${account.website},
-           |${account.age},
-           |${account.gender},
-           |NOW(),
-           |NOW(),
-           |)""".stripMargin
-      SQL(sql).execute()
+        s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,updated_on)
+           |VALUES ({name},{jp_name},{username},{password},{email},{website},{age},{gender},NOW())""".stripMargin
+      try {
+        SQL(sql).on(
+          "name"->account.name.getOrElse(""),
+          "jp_name"->account.jp_name.getOrElse(""),
+          "username"->account.username,
+          "password"->account.password,
+          "email"->account.email,
+          "website"->account.website.getOrElse(""),
+          "age"->account.age.getOrElse(0),
+          "gender"->account.gender
+        ).execute()
+        true
+      } catch {
+        case t: Throwable => {
+          Logger.error("Exception insert DB:", t)
+          SQLDebugger.log(sql)
+          false
+        }
+      }
     }
 
   }
