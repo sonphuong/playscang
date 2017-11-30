@@ -1,6 +1,6 @@
 @()
-
-<div class="container" ng-controller="ListController">
+<script src="@routes.Assets.at("javascripts/domain/account/account.js")"></script>
+<div class="container" ng-controller="AccountController">
     <div class="row">
         <div class="col-md-12"><h1>Example of 10.000 records data</h1></div>
     </div>
@@ -62,14 +62,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
+                        <input type="email" check-unique class="form-control" id="email" name="email" required aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="text" class="form-control" id="website" name="website" ng-model="accountForm.website">
+                        <input type="text" class="form-control" id="website" name="website" check-unique nique ng-model="accountForm.website">
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="age">Age</label>
-                        <input type="text" class="form-control" id="age" name="age" maxlength="3" ng-model="accountForm.age">
+                        <input type="number" class="form-control" id="age" name="age" maxlength="3" ng-model="accountForm.age">
                     </div>
                 </div>
             </div>

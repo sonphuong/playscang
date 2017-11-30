@@ -4,7 +4,7 @@
 package models
 
 import anorm._
-import anorm.{Macro, RowParser}
+import anorm.{Macro, RowParser, SqlParser}
 import play.api.db.DBApi
 import play.api.libs.json.{JsValue, Json, Writes}
 import javax.inject.Inject
@@ -102,6 +102,23 @@ class AccountRepository @Inject()(dbapi: DBApi){
       }
     }
 
+  }
+
+  def isExist(name: String, value: String): Boolean = {
+    try {
+      db.withConnection{ implicit connection =>
+        var intNumRow = 0
+        // add "COLLATE utf8_bin" to sql string for japaneses char search
+        val sqlCheckExist = s"SELECT COUNT(1) AS num_row FROM $strTable WHERE $name = {value}"
+        intNumRow = SQL(sqlCheckExist).on("value" -> value).as(SqlParser.int("num_row").single)
+        if(intNumRow>0) true
+        else false
+      }
+    } catch {
+      case ex: Exception =>
+        Logger.error(s"${ex.getMessage}")
+        true
+    }
   }
 
 }

@@ -22,6 +22,7 @@ case class AccountData (
                          age: Option[Int],
                          gender: Int
                        )
+case class AccountField(name: String, value: String)
 /**
   * from play2.6 we need to inject model to controller (not only import) in order to use it
   * @param AccountService
@@ -84,9 +85,10 @@ class AccountController @Inject()(AccountService: AccountRepository,
         val result = AccountService.insert(account)
         if (result) {
           mapResult.put("success", "1")
+          mapResult.put("msg", "insert successfully!")
         } else {
           mapResult.put("success", "0")
-          //mapResult.put("msg", result.toString)
+          mapResult.put("msg", "insert failed!")
         }
         Ok(Json.toJson(mapResult.toMap))
       }
@@ -94,4 +96,27 @@ class AccountController @Inject()(AccountService: AccountRepository,
     )
   }
 
+  def isExist = Action{ implicit request =>
+    val frmBinding = Form(mapping("name" -> text,"value" -> text)(AccountField.apply)(AccountField.unapply))
+    val mapResult = scala.collection.mutable.Map[String, String]()
+    frmBinding.bindFromRequest.fold(
+      formWithErrors => {
+        mapResult.put("success", "0")
+        mapResult.put("msg", "bind form fail")
+        Ok(Json.toJson(mapResult.toMap))
+      },
+      bindedValue => {
+        val result = AccountService.isExist(bindedValue.name,bindedValue.value)
+        if (result) {
+          mapResult.put("success", "1")
+          mapResult.put("msg", "the record is exist!")
+        } else {
+          mapResult.put("success", "0")
+          mapResult.put("msg", "avaiable")
+        }
+        Ok(Json.toJson(mapResult.toMap))
+      }
+
+    )
+  }
 }

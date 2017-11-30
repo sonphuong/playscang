@@ -3,13 +3,15 @@
 # ~~~~
 
 # Default path will just redirect to the computer list
-GET     /                           controllers.AccountController.index
-GET     /account/index                           controllers.AccountController.index
+GET     /                                           controllers.AccountController.index
+GET     /account/index                              controllers.AccountController.index
 + nocsrf #to avoid check csrf
-POST     /account/add                           controllers.AccountController.add
-GET     /account/getData                           controllers.AccountController.getData
-#GET     /account/edit/:id                           controllers.Account.edit
-#GET     /account/delete/:id                           controllers.Account.delete
+POST     /account/add                               controllers.AccountController.add
++ nocsrf #to avoid check csrf
+POST     /account/api/isExist                           controllers.AccountController.isExist
+GET     /account/getData                            controllers.AccountController.getData
+#GET     /account/edit/:id                          controllers.Account.edit
+#GET     /account/delete/:id                        controllers.Account.delete
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
