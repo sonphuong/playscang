@@ -210,16 +210,46 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
         $("#divAddForm").toggle();
     };
 
-    $scope.accountForm = {
-        name:"",
-        jp_name:"",
-        username:"",
-        password:"",
-        email:"",
-        website:"",
-        age:"",
-        gender:""
+    /**
+     * autofill
+     */
+
+    $scope.autoFill = function(){
+        let time =  new Date().getTime();
+        let name = "demo"+time;
+        $scope.accountForm = {
+            name:name,
+            jp_name:"デモ"+name,
+            username:name,
+            password:"demo",
+            email:name+"@yahoo.com",
+            website:"http://wwww."+name+".com",
+            age:"25",
+            gender:"1"
+        }
     };
+
+    $scope.resetForm = function(){
+        $scope.accountForm = $scope.getDefaultForm();
+    };
+
+    /**
+     * init default value form
+     * @type {{name: string, jp_name: string, username: string, password: string, email: string, website: string, age: string, gender: string}}
+     */
+    $scope.getDefaultForm = function(){
+        return {
+            name:"",
+            jp_name:"",
+            username:"",
+            password:"",
+            email:"",
+            website:"",
+            age:"",
+            gender:"1"
+        };
+    };
+
 
     $scope.add = function(){
         console.log($scope);
@@ -251,6 +281,7 @@ let ListController = function ($log, $scope, $q, $http, $filter, $timeout, i18nS
     };
 //======================================================================================================================
     $scope.articles = $scope.getData();
+    $scope.accountForm = $scope.getDefaultForm();
 
 };
 ListController.$inject = ['$log', '$scope', '$q', '$http', '$filter','$timeout', 'i18nService', '$controller', 'uiGridConstants'];

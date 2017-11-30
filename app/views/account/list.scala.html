@@ -85,7 +85,13 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <input type="radio" id="gender" name="gender" value="1" ng-model="accountForm.gender">
+                        <label for="gender">
+                            <input type="radio" name="gender" value="1" ng-model="accountForm.gender" checked="checked"> Male
+                        </label>
+                        <label for="gender">
+                            <input type="radio" name="gender" value="2" ng-model="accountForm.gender"> Female
+                        </label>
+
                         @*<ng-form name="genderGroup" ng-repeat="(key,value) in genders track by $index">
                             <label for="gender">
                                 <input type="radio" class="form-control" id="gender" name="gender" value="{{value.value}}"/> {{value.label}}
@@ -101,10 +107,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success" ng-click="autoFill()">Auto Fill</button>
+                    <button type="submit" class="btn btn-danger" ng-click="resetForm()">Reset</button>
                     <button type="submit" class="btn btn-primary" ng-click="add()">Submit</button>
                 </div>
             </div>
