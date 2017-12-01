@@ -109,7 +109,7 @@ class AccountRepository @Inject()(dbapi: DBApi){
       db.withConnection{ implicit connection =>
         var intNumRow = 0
         // add "COLLATE utf8_bin" to sql string for japaneses char search
-        val sqlCheckExist = s"SELECT COUNT(1) AS num_row FROM $strTable WHERE $name = {value}"
+        val sqlCheckExist = s"SELECT COUNT(1) AS num_row FROM $strTable WHERE $name = {value} COLLATE pg_catalog.default"
         intNumRow = SQL(sqlCheckExist).on("value" -> value).as(SqlParser.int("num_row").single)
         if(intNumRow>0) true
         else false

@@ -19,67 +19,80 @@
     @*style="display: none;"*@
     <div class="row" id="divAddForm">
         <div class="col-md-12"><h2>Account</h2></div>
-        <form name="frmAccount" id="frmAccount" actions="/account/add">
-            <div class="row">
+        <form name="frmAccount" id="frmAccount" actions="/account/add" novalidate class="was-validated">
+            <div class="row" >
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="inputGroupContainer form-group" ng-class="{'has-error': isFormChecked && frmAccount.username.$invalid, 'has-success': frmAccount.username.$dirty &&  frmAccount.username.$valid}">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required ng-model="accountForm.username">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" placeholder="username" name="username" required ng-model="accountForm.username">
+                        </div>
+                        <small class="help-block" ng-if="isFormChecked && frmAccount.username.$error.required">{{errmsg.required}}</small>
+                        <small class="help-block" ng-if="frmAccount.username.$dirty && frmAccount.username.$error.pattern">{{errmsg.pattern}}</small>
+                        <small class="help-block" ng-if="frmAccount.username.$dirty && frmAccount.username.$error.duplicate">{{errmsg.duplicate}}</small>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group"
+                    ng-class="{'has-error': isFormChecked && frmAccount.password.$invalid, 'has-success': frmAccount.password.$dirty &&  frmAccount.password.$valid}">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required ng-model="accountForm.password">
+                        <div class="input-group inputGroupContainer">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" name="password" placeholder="Password" required ng-model="accountForm.password">
+                        </div>
+
+                        <small class="help-block" ng-if="isFormChecked && frmAccount.password.$error.required">{{errmsg.required}}</small>
+                        <small class="help-block" ng-if="frmAccount.password.$dirty && frmAccount.password.$error.pattern">{{errmsg.pattern}}</small>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="has-error">{{frmAccount.username.$error.$required}}</div>
-                    <div class="has-error">{{frmAccount.username.$error.$pattern}}</div>
-                </div>
-                <div class="col-md-4">
-                    <div class="has-error">{{frmAccount.password.$error.$required}}</div>
-                    <div class="has-error">{{frmAccount.password.$error.$pattern}}</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="jp_name">JP Name</label>
-                        <input type="text" class="form-control" id="jp_name" name="jp_name" ng-model="accountForm.jp_name">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" name="jp_name" ng-model="accountForm.jp_name">
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group inputGroupContainer">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" ng-model="accountForm.name">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" name="name" ng-model="accountForm.name">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group"
+                    ng-class="{'has-error': isFormChecked && frmAccount.email.$invalid, 'has-success': frmAccount.email.$dirty && frmAccount.email.$valid}">
                         <label for="email">Email address</label>
-                        <input type="email" check-unique class="form-control" id="email" name="email" required aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" id="email" name="email" required unique class="form-control"
+                            aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
+                        </div>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <small class="help-block" ng-if="isFormChecked && frmAccount.email.$error.required">{{errmsg.required}}</small>
+                        <small class="help-block" ng-if="frmAccount.email.$dirty && frmAccount.email.$error.pattern">{{errmsg.pattern}}</small>
+                        <small class="help-block" ng-if="frmAccount.email.$dirty && frmAccount.email.$error.duplicate">{{errmsg.duplicate}}</small>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4"
+                ng-class="{'has-error': isFormChecked && frmAccount.website.$invalid, 'has-success': frmAccount.website.$dirty && frmAccount.website.$valid}">
                     <div class="form-group">
                         <label for="website">Website</label>
-                        <input type="text" class="form-control" id="website" name="website" check-unique nique ng-model="accountForm.website">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                            <input type="text" class="form-control" placeholder="http://www.yourwebsite.com" name="website" ng-model="accountForm.website">
+                        </div>
+                        <small class="help-block" ng-if="frmAccount.website.$dirty && frmAccount.website.$error.pattern">{{errmsg.pattern}}</small>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="has-error">{{frmAccount.email.$error.$required}}</div>
-                    <div class="has-error">{{frmAccount.email.$error.$pattern}}</div>
-                </div>
-                <div class="col-md-4">
-                    <div class="has-error">{{frmAccount.website.$error.$pattern}}</div>
                 </div>
             </div>
             <div class="row">
@@ -100,17 +113,22 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="form-group">
+                    <div class="form-group inputGroupContainer">
                         <label for="age">Age</label>
-                        <input type="number" class="form-control" id="age" name="age" maxlength="3" ng-model="accountForm.age">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="number" class="form-control" name="age" maxlength="3" ng-model="accountForm.age">
+                        </div>
+                        <small class="help-block" ng-if="frmAccount.age.$error.pattern">{{errmsg.pattern}}</small>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success" ng-click="autoFill()">Auto Fill</button>
-                    <button type="submit" class="btn btn-danger" ng-click="resetForm()">Reset</button>
-                    <button type="submit" class="btn btn-primary" ng-click="add()">Submit</button>
+                    <button type="button" class="btn btn-success" ng-click="log()">Log</button>
+                    <button type="button" class="btn btn-success" ng-click="autoFill()">Auto Fill</button>
+                    <button type="button" class="btn btn-danger" ng-click="resetForm()">Reset</button>
+                    <button type="button" class="btn btn-primary" ng-click="add()">Submit</button>
                 </div>
             </div>
         </form>

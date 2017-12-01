@@ -1,5 +1,11 @@
 let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i18nService, $controller, uiGridConstants) {
     let genders = [ { value: '1', label: 'male' }, { value: '2', label: 'female' }, { value: '3', label: 'other'} ];
+    $scope.errmsg = {
+        required: "Could not be empty",
+        duplicate: "Duplicate value",
+        pattern: "Wrong partten"
+    };
+
     $scope.bunchEditAble = 0;
     $scope.paginationPageSizes = [10, 20, 30, 50, 100];
     $scope.paginationPageSize = 100;
@@ -211,6 +217,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
 
     $scope.resetForm = function(){
         $scope.accountForm = $scope.getDefaultForm();
+        $scope.isFormChecked = false;
     };
 
     /**
@@ -232,7 +239,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
 
 
     $scope.add = function(){
-        console.log($scope);
+        $scope.isFormChecked = true;
         if($scope.frmAccount.$valid){
             let url = "/account/add";
             let data = $scope.accountForm;
@@ -259,9 +266,15 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
             }
         }
     };
-//======================================================================================================================
+
+//===================================================debug==============================================================
+    $scope.log = function(){
+        console.log($scope);
+    };
+//===================================================exec===============================================================
     $scope.articles = $scope.getData();
     $scope.accountForm = $scope.getDefaultForm();
+    $scope.isFormChecked = false;
 
 };
 AccountController.$inject = ['$log', '$scope', '$q', '$http', '$filter','$timeout', 'i18nService', '$controller', 'uiGridConstants'];
