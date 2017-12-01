@@ -111,6 +111,16 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         position: 5,
         displayName: 'Age',
         field: 'age',
+        filters: [
+            {
+                condition: uiGridConstants.filter.GREATER_THAN,
+                placeholder: 'min'
+            },
+            {
+                condition: uiGridConstants.filter.LESS_THAN,
+                placeholder: 'max'
+            }
+        ],
         minWidth: 50,
         enableSorting: true,
         enableFiltering: true,
@@ -179,7 +189,6 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
      *
      */
     $scope.getData = function () {
-        //let url = "assets/data/10000_complex.json";
         let url = "/account/getData";
         $http.get(url).then(rp =>{
             let gridData = rp.data;
@@ -236,7 +245,11 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
             gender:"1"
         };
     };
-
+    $scope.refreshGrid = function () {
+        $timeout(function () {
+            $scope.gridApi.grid.refresh();
+        });
+    };
 
     $scope.add = function(){
         $scope.isFormChecked = true;
@@ -244,8 +257,13 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
             let url = "/account/add";
             let data = $scope.accountForm;
             $http.post(url,data).then(rp =>{
-                console.log(rp.data)
+                console.log(rp.data.success);
+                if(rp.data.success==="1"){
+                    $scope.getData();
+                    $scope.refreshGrid();
+                }
             });
+
         }
         else{
             $scope.doFocus();
@@ -272,7 +290,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         console.log($scope);
     };
 //===================================================exec===============================================================
-    $scope.articles = $scope.getData();
+    $scope.getData();
     $scope.accountForm = $scope.getDefaultForm();
     $scope.isFormChecked = false;
 
