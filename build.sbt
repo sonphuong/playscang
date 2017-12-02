@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 libraryDependencies += guice
 libraryDependencies += jdbc
 libraryDependencies += evolutions
-
+//libraryDependencies += scalaVersion("org.scala-lang" % "scala-compiler" % _ )
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
 libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.3"
