@@ -80,7 +80,7 @@ class AccountRepository @Inject()(dbapi: DBApi){
     db.withConnection{ implicit connection =>
       val sql =
         s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,updated_on)
-           |VALUES ({name},{jp_name},{username},{password},{email},{website},{age},{gender},NOW())""".stripMargin
+            VALUES ({name},{jp_name},{username},{password},{email},{website},{age},{gender},NOW())""".stripMargin
       try {
         SQL(sql).on(
           "name"->account.name.getOrElse(""),
@@ -96,6 +96,9 @@ class AccountRepository @Inject()(dbapi: DBApi){
       } catch {
         case t: Throwable => {
           Logger.error("Exception insert DB:", t)
+          val sql =
+            s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,updated_on)
+                VALUES ('${account.name.getOrElse("")}','${account.jp_name.getOrElse("")}','${account.username}','${account.password}','${account.email}','${account.website.getOrElse("")}','${account.age.getOrElse(0)}','${account.gender}',NOW())"""
           SQLDebugger.log(sql)
           false
         }
