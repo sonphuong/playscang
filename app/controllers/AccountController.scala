@@ -1,3 +1,6 @@
+/**
+  *@author dosonphuong@gmail.com
+  */
 package controllers
 
 import javax.inject.Inject
@@ -43,6 +46,8 @@ class AccountController @Inject()(AccountService: AccountRepository,
       "gender" -> number
     )(AccountData.apply)(AccountData.unapply)
   )
+
+
   /**
     * show the list screen
     * @return
@@ -51,6 +56,7 @@ class AccountController @Inject()(AccountService: AccountRepository,
     val content = views.html.account.list()
       Ok(views.html.main(content))
   }
+
 
   /**
     * get data for the list screen
@@ -61,6 +67,11 @@ class AccountController @Inject()(AccountService: AccountRepository,
     Ok(Json.toJson(result))
   }
 
+
+  /**
+    * fire when user click submit button from the adding form
+    * @return JSON
+    */
   def add = Action{ implicit request =>
     val mapResult = scala.collection.mutable.Map[String, String]()
     accountForm.bindFromRequest.fold(
@@ -96,6 +107,11 @@ class AccountController @Inject()(AccountService: AccountRepository,
     )
   }
 
+
+  /**
+    * check if value is exist
+    * @return JSON
+    */
   def isExist = Action{ implicit request =>
     val frmBinding = Form(mapping("name" -> text,"value" -> text)(AccountField.apply)(AccountField.unapply))
     val mapResult = scala.collection.mutable.Map[String, String]()

@@ -62,7 +62,7 @@ class AccountRepository @Inject()(dbapi: DBApi){
   */
 
   /**
-    *
+    * get all data
     * @return
     */
   def findAll() = {
@@ -74,7 +74,9 @@ class AccountRepository @Inject()(dbapi: DBApi){
 
 
   /**
-    *
+    * insert to database
+    * @param account
+    * @return Boolean
     */
   def insert(account:AccountData):Boolean = {
     db.withConnection{ implicit connection =>
@@ -107,6 +109,14 @@ class AccountRepository @Inject()(dbapi: DBApi){
 
   }
 
+
+
+  /**
+    * check if a value of a field is exist
+    * @param name
+    * @param value
+    * @return Boolean
+    */
   def isExist(name: String, value: String): Boolean = {
     try {
       db.withConnection{ implicit connection =>
