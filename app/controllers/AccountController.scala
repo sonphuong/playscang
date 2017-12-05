@@ -68,6 +68,11 @@ class AccountController @Inject()(AccountService: AccountRepository,
   }
 
 
+  def getInserted(id: Int) = Action{
+    val result: List[Account] = AccountService.getInserted(id)
+    Ok(Json.toJson(result))
+  }
+
   /**
     * fire when user click submit button from the adding form
     * @return JSON
@@ -93,13 +98,14 @@ class AccountController @Inject()(AccountService: AccountRepository,
           acountData.age,
           acountData.gender
         )
-        val result = AccountService.insert(account)
-        if (result) {
+        val id = AccountService.insert(account)
+        if (id > 0) {
           mapResult.put("success", "1")
-          mapResult.put("msg", "insert successfully!")
+          mapResult.put("id", id.toString)
+          mapResult.put("msg", s"insert successfully! id: ${id}")
         } else {
           mapResult.put("success", "0")
-          mapResult.put("msg", "insert failed!")
+          mapResult.put("msg", s"insert failed! id: ${id}")
         }
         Ok(Json.toJson(mapResult.toMap))
       }

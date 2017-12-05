@@ -251,16 +251,29 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         });
     };
 
+
+    $scope.getInserted  = function(id){
+        let url = "/account/api/getInserted/" + id;
+        return $http.get(url)
+    };
+
+
     $scope.add = function(){
         $scope.isFormChecked = true;
         if($scope.frmAccount.$valid){
             let url = "/account/add";
             let data = $scope.accountForm;
             $http.post(url,data).then(rp =>{
-                console.log(rp.data.success);
                 if(rp.data.success==="1"){
-                    $scope.getData();
-                    $scope.refreshGrid();
+                    let row = {};
+                    let xhr = $scope.getInserted(rp.data.id);
+                    xhr.then(rp =>{
+                        if(rp.data){
+                            row = rp.data[0];
+                            $scope.gridOptions.data.push(row);
+                            $scope.refreshGrid();
+                        }
+                    });
                 }
             });
 
