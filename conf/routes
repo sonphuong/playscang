@@ -4,6 +4,7 @@
 
 # Default path will just redirect to the computer list
 GET      /                                                       controllers.AccountController.index
+GET      /account/gen1mRecord                                          controllers.AccountController.gen1mRecord
 GET      /account/index                                          controllers.AccountController.index
 POST     /account/add                                            controllers.AccountController.add
 POST     /account/api/isExist                                    controllers.AccountController.isExist

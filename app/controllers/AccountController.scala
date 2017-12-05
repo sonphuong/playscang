@@ -5,6 +5,7 @@ package controllers
 
 import javax.inject.Inject
 
+import infra.DBService
 import models.{Account, AccountRepository}
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -31,7 +32,7 @@ case class AccountField(name: String, value: String)
   * @param AccountService
   * @param cc
   */
-class AccountController @Inject()(AccountService: AccountRepository,
+class AccountController @Inject()(AccountService: AccountRepository, dBService: DBService,
                                   cc: ControllerComponents) extends AbstractController(cc) {
 
   val accountForm = Form(
@@ -56,6 +57,13 @@ class AccountController @Inject()(AccountService: AccountRepository,
     val content = views.html.account.list()
       Ok(views.html.main(content))
   }
+
+
+  def gen1mRecord = Action{
+    dBService.gen1mRecord()
+    Ok("done")
+  }
+
 
 
   /**

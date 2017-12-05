@@ -7,6 +7,9 @@ import javax.inject.Inject
 import java.security.MessageDigest
 import anorm.{Macro, RowParser, _}
 import play.api.db.DBApi
+import java.time.Instant
+import scala.util.Random
+
 
 case class Account (
                      var id: Int,
@@ -28,11 +31,11 @@ class DBService @Inject()(dbapi: DBApi){
   //set db connection from "default" dbsource
   private val db = dbapi.database("default")
   val parser: RowParser[Account] = Macro.namedParser[Account]
+  def md5(s: String) = {
+    MessageDigest.getInstance("MD5").digest(s.getBytes)
+  }
 
   def genData() = {
-    def md5(s: String) = {
-      MessageDigest.getInstance("MD5").digest(s.getBytes)
-    }
     db.withConnection{implicit connection =>
       val rs = SQL(s"SELECT * FROM account ORDER BY updated_on DESC").as(parser.*)
       var fullSql = ""
@@ -52,6 +55,33 @@ class DBService @Inject()(dbapi: DBApi){
       })
       //execute sql
       SQL(fullSql).executeUpdate()
+    }
+  }
+  def gen1mRecord() = {
+    db.withConnection{implicit connection =>
+      var sql = s"""INSERT INTO account (name,jp_name,email,username,password,website,age,gender) VALUES """
+      var i = 1
+      val alpha = "abcdefghijklmnopqrstuvwxyz"
+      val size = alpha.size
+      def randStr(n:Int) = (1 to n).map(x => alpha(Random.nextInt.abs % size)).mkString
+
+      while(i<=1000000){
+        val time : String = Instant.now.getEpochSecond.toString
+        val name = randStr(10)+time
+        val jp_name = "デモ"+name
+        val age = 25
+        val gender = 1
+        val username = name.toLowerCase()
+        val email = username+"@gmail.com"
+        val password = md5("demo")
+        val website = s"http://www.$username.com"
+        sql +=s""" ('$name', '$jp_name','$email','$username','$password','$website','$age','$gender'), """.stripMargin
+        i = i+1
+      }
+      //one more without comma at the end
+      val time : String = Instant.now.getEpochSecond.toString
+      sql +=s""" ('demo$time', 'デモ$time','demo$time@hotmail.com','demo$time','${md5("demo")}','http://www.demo$time.com','30','2') """.stripMargin
+      SQL(sql).execute()
     }
   }
 }
