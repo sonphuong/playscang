@@ -72,19 +72,26 @@ class AccountRepository @Inject()(dbapi: DBApi){
 
   }
 
+  def getInserted(id: Int) = {
+    db.withConnection{ implicit connection =>
+      SQL(s"SELECT * FROM $strTable WHERE id = $id").as(parser.*)
+    }
+
+  }
 
   /**
     * insert to database
     * @param account
     * @return Boolean
     */
-  def insert(account:AccountData):Boolean = {
+  def insert(account:AccountData):Int = {
+    var id: Int = 0
     db.withConnection{ implicit connection =>
       val sql =
         s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,updated_on)
             VALUES ({name},{jp_name},{username},{password},{email},{website},{age},{gender},NOW()::timestamp)""".stripMargin
       try {
-        SQL(sql).on(
+        val nid: Option[Long] = SQL(sql).on(
           "name"->account.name.getOrElse(""),
           "jp_name"->account.jp_name.getOrElse(""),
           "username"->account.username,
@@ -93,8 +100,8 @@ class AccountRepository @Inject()(dbapi: DBApi){
           "website"->account.website.getOrElse(""),
           "age"->account.age.getOrElse(0),
           "gender"->account.gender
-        ).execute()
-        true
+        ).executeInsert()
+        id = nid.getOrElse(0).toString.toInt
       } catch {
         case t: Throwable => {
           Logger.error("Exception insert DB:", t)
@@ -102,9 +109,9 @@ class AccountRepository @Inject()(dbapi: DBApi){
             s"""INSERT INTO $strTable (name,jp_name,username,password,email,website,age,gender,updated_on)
                 VALUES ('${account.name.getOrElse("")}','${account.jp_name.getOrElse("")}','${account.username}','${account.password}','${account.email}','${account.website.getOrElse("")}','${account.age.getOrElse(0)}','${account.gender}',NOW()::timestamp)"""
           SQLDebugger.log(sql)
-          false
         }
       }
+      id
     }
 
   }
