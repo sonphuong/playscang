@@ -6,8 +6,10 @@
         <title>Play Scala Angularjs Bootstrap</title>
 
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/infra/bootstrap.min.css")" />
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/infra/navbar-fixed-side.scss")" />
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/infra/ui-grid.min.css")" />
         <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <script src="@routes.Assets.at("javascripts/infra/jquery-3.2.1.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/infra/bootstrap.min.js")"></script>
@@ -16,6 +18,45 @@
         <script src="@routes.Assets.at("javascripts/app.js")"></script>
     </head>
     <body ng-app="app">
-        @content
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Play Scala Angularjs Heroku</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Account list</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+           <div class="row">
+               <div class="col-xs-2">
+                   <nav class="navbar navbar-default navbar-fixed-side">
+                       <ul class="nav navbar-nav">
+                           <li>
+                               <div class="card">
+                                   <img src="@routes.Assets.at("images/me.jpeg")" alt="Son Phuong" style="width:100%">
+                                   <h3>Son Phuong</h3>
+                                   <p class="title">Full-stack Developer</p>
+                                   <p>Septeni technology</p>
+                                   <a href="https://github.com/sonphuong"><i class="fa fa-github"></i></a>
+                                   <a href="https://www.linkedin.com/in/sonphuong/"><i class="fa fa-linkedin"></i></a>
+                                </div>
+                           </li>
+
+                       </ul>
+                   </nav>
+               </div>
+               <div class="col-xs-8">@content</div>
+           </div>
+        </div>
+        @*<nav class="navbar navbar-inverse mt-50">*@
+            @*<div class="container-fluid">*@
+                @*<ul class="nav navbar-nav">*@
+                    @*<li class="active"><a href="/">Account list</a></li>*@
+                    @*<li><a href="/aboutme">About me</a></li>*@
+                @*</ul>*@
+            @*</div>*@
+        @*</nav>*@
     </body>
 </html>

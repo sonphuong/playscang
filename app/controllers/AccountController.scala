@@ -9,6 +9,9 @@ import infra.DBService
 import models.{Account, AccountRepository}
 import play.api.libs.json.Json
 import play.api.mvc._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 //for using form
 import play.api.data._
 import play.api.data.Forms._
@@ -60,8 +63,11 @@ class AccountController @Inject()(AccountService: AccountRepository, dBService: 
 
 
   def gen1mRecord = Action{
-    dBService.gen1mRecord()
-    Ok("done")
+    Future{
+      dBService.gen1mRecord()
+    }
+    Redirect(routes.AccountController.index()).flashing(("success", s"Job(s) will be running in background."))
+    //Ok("done")
   }
 
 
