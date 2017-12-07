@@ -15,7 +15,7 @@ class BrowserSpec extends PlaySpec
 
   def $(str: String) = find(cssSelector(str)).getOrElse(throw new IllegalArgumentException(s"Cannot find $str"))
 
-  "Application" should {
+  /*"Application" should {
     
     "work from within a browser" in {
       System.setProperty("webdriver.gecko.driver", "/path/to/geckodriver")
@@ -68,5 +68,5 @@ class BrowserSpec extends PlaySpec
         
         $("section h1").text must equal("12 computers found")
     }
-  }
+  }*/
 }

@@ -16,39 +16,29 @@ app.filter('mapGender', function () {
     };
 });
 //website validator
-app.directive('checkValidUrl',checkValidUrl);
-function checkValidUrl($timeout,$http){
+app.directive('url',validUrl);
+function validUrl(){
     return {
         restrict: 'A',
         require: 'ngModel',
         link: function(scope, element, attr, ctrl) {
             function doValid(ngModelValue) {
-                if (/^[a-zA-Z0-9_-]*$/.test(ngModelValue)) {
+                let pattern = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+                if (pattern.test(ngModelValue)) {
                     ctrl.$setValidity('pattern', true);
                 } else {
                     ctrl.$setValidity('pattern', false);
                 }
-                if (ngModelValue.length <= 30) {
-                    ctrl.$setValidity('maxLength', true);
-                } else {
-                    ctrl.$setValidity('maxLength', false);
-                }
-                // we need to return our ngModelValue, to be displayed to the user(value of the input)
                 return ngModelValue;
             }
-
-            // we need to add our doValid function to an array of other(build-in or custom) functions
-            // I have not notice any performance issues, but it would be worth investigating how much
-            // effect does this have on the performance of the app
             ctrl.$parsers.push(doValid);
         }
     };
 }
-checkValidUrl.$inject = ['$timeout','$http'];
 
 //username validator
-app.directive('unique',unique);
-function unique($timeout,$http){
+app.directive('unique',validUnique);
+function validUnique($timeout,$http){
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -77,9 +67,47 @@ function unique($timeout,$http){
         }
     };
 }
-unique.$inject = ['$timeout','$http'];
+
 
 //email validator
+app.directive('email',validEmail);
+function validEmail(){
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attr, ctrl) {
+            function doValid(ngModelValue) {
+                let pattern = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+                if (pattern.test(ngModelValue)) {
+                    ctrl.$setValidity('pattern', true);
+                } else {
+                    ctrl.$setValidity('pattern', false);
+                }
+                return ngModelValue;
+            }
+            ctrl.$parsers.push(doValid);
+        }
+    };
+}
 
+//password validator
 
-
+app.directive('password',validPassword);
+function validPassword(){
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attr, ctrl) {
+            function doValid(ngModelValue) {
+                let pattern = /^(?=.*\d).{4,8}$/;
+                if (pattern.test(ngModelValue)) {
+                    ctrl.$setValidity('pattern', true);
+                } else {
+                    ctrl.$setValidity('pattern', false);
+                }
+                return ngModelValue;
+            }
+            ctrl.$parsers.push(doValid);
+        }
+    };
+}

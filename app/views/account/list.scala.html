@@ -1,7 +1,7 @@
 @()
 <script src="@routes.Assets.at("javascripts/domain/account/account.js")"></script>
 <div ng-controller="AccountController">
-    
+
     <div class="row">
         <div id="myGrid" class="col-md-12"
         ui-grid="gridOptions"
@@ -41,7 +41,7 @@
                         </div>
 
                         <small class="help-block" ng-if="isFormChecked && frmAccount.password.$error.required">{{errmsg.required}}</small>
-                        <small class="help-block" ng-if="frmAccount.password.$dirty && frmAccount.password.$error.pattern">{{errmsg.pattern}}</small>
+                        <small class="help-block" ng-if="frmAccount.password.$dirty && frmAccount.password.$error.pattern">{{errmsg.password.pattern}}</small>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <label for="email">Email address</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input type="email" id="email" name="email" required unique class="form-control"
+                            <input type="email" id="email" name="email" required unique email class="form-control"
                             aria-describedby="emailHelp" placeholder="Enter email" ng-model="accountForm.email">
                         </div>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -87,7 +87,7 @@
                         <label for="website">Website</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                            <input type="text" class="form-control" placeholder="http://www.yourwebsite.com" name="website" ng-model="accountForm.website">
+                            <input type="text" class="form-control" url placeholder="http://www.yourwebsite.com" name="website" ng-model="accountForm.website">
                         </div>
                         <small class="help-block" ng-if="frmAccount.website.$dirty && frmAccount.website.$error.pattern">{{errmsg.pattern}}</small>
                     </div>
@@ -123,7 +123,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-success" ng-click="log()">Log</button>
+                    <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
                     <button type="button" class="btn btn-success" ng-click="autoFill()">Auto Fill</button>
                     <button type="button" class="btn btn-danger" ng-click="resetForm()">Reset</button>
                     <button type="button" class="btn btn-primary" ng-click="add()">Submit</button>

@@ -3,7 +3,12 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
     $scope.errmsg = {
         required: "Could not be empty",
         duplicate: "Duplicate value",
-        pattern: "Wrong partten"
+        password: {
+            pattern: "Password must be between 4 and 8 digits long and include at least one numeric digit."
+        },
+        email: {
+            pattern: "Email here."
+        }
     };
 
     $scope.bunchEditAble = 0;
@@ -225,6 +230,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
     };
 
     $scope.resetForm = function(){
+        $scope.frmAccount.$error = {};
         $scope.accountForm = $scope.getDefaultForm();
         $scope.isFormChecked = false;
     };
