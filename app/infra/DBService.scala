@@ -65,7 +65,7 @@ class DBService @Inject()(dbapi: DBApi){
       val size = alpha.size
       def randStr(n:Int) = (1 to n).map(x => alpha(Random.nextInt.abs % size)).mkString
 
-      while(i<=50000){
+      while(i<=9000){
         val time : String = Instant.now.getEpochSecond.toString
         val name = randStr(10)+time
         val jp_name = "デモ"+name
