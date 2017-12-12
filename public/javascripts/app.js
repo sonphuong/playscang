@@ -3,7 +3,7 @@
 /**
  * @author: phuongds
  */
-let app = angular.module('app', ['ui.grid','ui.grid.selection', 'ui.grid.cellNav','ui.grid.exporter','ui.grid.pagination']);
+let app = angular.module('app', ['ui.grid','ui.grid.selection', 'ui.grid.cellNav','ui.grid.exporter','ui.grid.pagination','ngStorage']);
 app.filter('mapGender', function () {
     let hash = {
         '1': "male",

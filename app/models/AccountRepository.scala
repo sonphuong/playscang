@@ -67,9 +67,19 @@ class AccountRepository @Inject()(dbapi: DBApi){
     */
   def findAll() = {
     db.withConnection{ implicit connection =>
-      SQL(s"SELECT * FROM $strTable ORDER BY updated_on DESC").as(parser.*)
+      SQL(s"SELECT * FROM $strTable ORDER BY updated_on DESC LIMIT 1000").as(parser.*)
     }
 
+  }
+
+  /**
+    * get all data
+    * @return
+    */
+  def getXRecords(offset: Int, limit: Int) = {
+    db.withConnection{ implicit connection =>
+      SQL(s"SELECT * FROM $strTable ORDER BY updated_on DESC OFFSET $offset LIMIT $limit").as(parser.*)
+    }
   }
 
   def getInserted(id: Int) = {

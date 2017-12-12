@@ -35,6 +35,10 @@ class DBService @Inject()(dbapi: DBApi){
     MessageDigest.getInstance("MD5").digest(s.getBytes)
   }
 
+  /**
+    *
+    * @return
+    */
   def genData() = {
     db.withConnection{implicit connection =>
       val rs = SQL(s"SELECT * FROM account ORDER BY updated_on DESC").as(parser.*)
@@ -57,7 +61,13 @@ class DBService @Inject()(dbapi: DBApi){
       SQL(fullSql).executeUpdate()
     }
   }
-  def gen1mRecord() = {
+
+  /**
+    *
+    * @param num
+    * @return
+    */
+  def genRecords(num: Int) = {
     db.withConnection{implicit connection =>
       var sql = s"""INSERT INTO account (name,jp_name,email,username,password,website,age,gender) VALUES """
       var i = 1
@@ -65,7 +75,7 @@ class DBService @Inject()(dbapi: DBApi){
       val size = alpha.size
       def randStr(n:Int) = (1 to n).map(x => alpha(Random.nextInt.abs % size)).mkString
 
-      while(i<=500){
+      while(i<=num){
         val time : String = Instant.now.getEpochSecond.toString
         val name = randStr(10)+time
         val jp_name = "デモ"+name

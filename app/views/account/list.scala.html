@@ -1,7 +1,19 @@
 @()
 <script src="@routes.Assets.at("javascripts/domain/account/account.js")"></script>
 <div ng-controller="AccountController">
-
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
+            <button type="button" class="btn btn-success" ng-click="loadMore()">Load more</button>
+            <input  type="text" maxlength="5" ng-model="num2gen" placeholder="enter < 50000">
+            <button type="button" class="btn btn-warning" ng-disabled="num2gen <= 0" ng-click="genRecords()">Generate</button>
+        </div>
+        <div class="col-xs-6">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">70%</div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div id="myGrid" class="col-md-12"
         ui-grid="gridOptions"
@@ -123,10 +135,10 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
+
                     <button type="button" class="btn btn-success" ng-click="autoFill()">Auto Fill</button>
                     <button type="button" class="btn btn-danger" ng-click="resetForm()">Reset</button>
-                    <button type="button" class="btn btn-primary" ng-click="add()">Submit</button>
+                    <button type="submit" class="btn btn-primary" ng-click="add()">Submit</button>
                 </div>
             </div>
         </form>

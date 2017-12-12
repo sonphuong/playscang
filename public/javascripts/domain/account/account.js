@@ -1,4 +1,5 @@
-let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i18nService, $controller, uiGridConstants) {
+let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i18nService, $controller, uiGridConstants, $localStorage) {
+
     let genders = [ { value: '1', label: 'male' }, { value: '2', label: 'female' }, { value: '3', label: 'other'} ];
     $scope.errmsg = {
         required: "Could not be empty",
@@ -193,16 +194,19 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
     /**
      *
      */
-    $scope.getData = function () {
-        let url = "/account/getData";
+    $scope.getData = function (offset,limit) {
+        let url = `/account/getXAccounts/${offset}/${limit}`;
         $http.get(url).then(rp =>{
             let gridData = rp.data;
             gridData.forEach(function (gdata, key) {
                 // /console.log(gdata);
             });
             $scope.gridOptions.data = gridData;
+            //get more data for later
+            let from  = offset + limit;
+            let to = limit;
+            $scope.preLoadMore(from,to);
         });
-
     };
 
 
@@ -304,15 +308,48 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         }
     };
 
+    /**
+     * load 10000 records before user click Load More button
+     */
+    $scope.preLoadMore = function(offset,limit){
+        let url = `/account/getXAccounts/${offset}/${limit}`;
+        $http.get(url).then(rp => {
+            $scope.nextRecords =  rp.data;
+        });
+        $scope.offset  = offset + limit;
+        $scope.limit = limit;
+    };
+
+    /**
+     * when user click on Load More button
+     */
+    $scope.loadMore = function(){
+        $scope.gridOptions.data = $.merge($scope.gridOptions.data, $scope.nextRecords);
+        //console.log($scope.gridOptions.data.length);
+        $scope.refreshGrid();
+        //after extend rs to list
+        $timeout($scope.preLoadMore($scope.offset,$scope.limit));
+
+    };
+
+    $scope.genRecords = function(){
+        let num2gen = $scope.num2gen;
+        let url = `/account/genRecords/${num2gen}`;
+        $http.get(url);
+    };
+
 //===================================================debug==============================================================
     $scope.log = function(){
         console.log($scope);
     };
 //===================================================exec===============================================================
-    $scope.getData();
+    $scope.num2gen = '';
+    $scope.offset = 0;
+    $scope.limit = 1000;
+    $scope.getData($scope.offset,$scope.limit);
     $scope.accountForm = $scope.getDefaultForm();
     $scope.isFormChecked = false;
 
 };
-AccountController.$inject = ['$log', '$scope', '$q', '$http', '$filter','$timeout', 'i18nService', '$controller', 'uiGridConstants'];
+AccountController.$inject = ['$log', '$scope', '$q', '$http', '$filter','$timeout', 'i18nService', '$controller', 'uiGridConstants','$localStorage'];
 app.controller('AccountController', AccountController);

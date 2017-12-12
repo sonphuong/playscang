@@ -62,21 +62,25 @@ class AccountController @Inject()(AccountService: AccountRepository, dBService: 
   }
 
 
-  def gen1mRecord = Action{
+  def genRecords(num: Int) = Action{
     Future{
-      dBService.gen1mRecord()
+      dBService.genRecords(num)
     }
     Redirect(routes.AccountController.index()).flashing(("success", s"Job(s) will be running in background."))
     //Ok("done")
   }
 
 
+  def getXAccounts(offset: Int, limit: Int) = Action{
+    val result: List[Account] = AccountService.getXRecords(offset,limit)
+    Ok(Json.toJson(result))
+  }
 
   /**
     * get data for the list screen
     * @return
     */
-  def getData = Action{
+  def getAllAccounts = Action{
     val result: List[Account] = AccountService.findAll()
     Ok(Json.toJson(result))
   }
