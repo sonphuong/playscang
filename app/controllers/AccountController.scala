@@ -66,8 +66,8 @@ class AccountController @Inject()(AccountService: AccountRepository, dBService: 
     Future{
       dBService.genRecords(num)
     }
-    Redirect(routes.AccountController.index()).flashing(("success", s"Job(s) will be running in background."))
-    //Ok("done")
+    //Redirect(routes.AccountController.index()).flashing(("success", s"Job(s) will be running in background."))
+    Ok("processing...")
   }
 
 

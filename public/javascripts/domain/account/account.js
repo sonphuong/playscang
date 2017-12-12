@@ -335,7 +335,9 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
     $scope.genRecords = function(){
         let num2gen = $scope.num2gen;
         let url = `/account/genRecords/${num2gen}`;
-        $http.get(url);
+        $http.get(url).then(rp => {
+            console.log(rp.status)
+        });
     };
 
 //===================================================debug==============================================================
@@ -345,7 +347,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
 //===================================================exec===============================================================
     $scope.num2gen = '';
     $scope.offset = 0;
-    $scope.limit = 1000;
+    $scope.limit = 5000;
     $scope.getData($scope.offset,$scope.limit);
     $scope.accountForm = $scope.getDefaultForm();
     $scope.isFormChecked = false;
