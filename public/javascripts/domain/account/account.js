@@ -71,7 +71,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         position: 2,
         displayName: 'Email',
         field: 'email',
-        minWidth: 100,
+        minWidth: 150,
         enableSorting: true,
         enableFiltering: true,
         enableColumnMenu: false
@@ -95,7 +95,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         position: 3,
         displayName: 'Gender',
         field: 'gender',
-        minWidth: 100,
+        minWidth: 50,
         enableSorting: false,
         cellFilter: 'mapGender',
         enableFiltering: true,
@@ -127,7 +127,7 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
                 placeholder: 'max'
             }
         ],
-        minWidth: 50,
+        minWidth: 30,
         enableSorting: true,
         enableFiltering: true,
         enableColumnMenu: false
@@ -325,7 +325,6 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
      */
     $scope.loadMore = function(){
         $scope.gridOptions.data = $.merge($scope.gridOptions.data, $scope.nextRecords);
-        //console.log($scope.gridOptions.data.length);
         $scope.refreshGrid();
         //after extend rs to list
         $timeout($scope.preLoadMore($scope.offset,$scope.limit));
@@ -336,15 +335,30 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
         let num2gen = $scope.num2gen;
         let url = `/account/genRecords/${num2gen}`;
         $http.get(url).then(rp => {
-            console.log(rp.status)
+            $scope.setNumRows();
         });
+
     };
 
+    $scope.getNumRows = function(){
+        let url = `/account/getNumRows`;
+        return $http.get(url);
+    };
+
+    $scope.setNumRows = function(){
+        let promise = $scope.getNumRows();
+        let numRow = 0;
+        promise.then(rp => {
+            numRow = rp.data.numRows;
+            $scope.totalRows = numRow;
+        });
+    };
 //===================================================debug==============================================================
     $scope.log = function(){
         console.log($scope);
     };
 //===================================================exec===============================================================
+    $scope.setNumRows();
     $scope.num2gen = '';
     $scope.offset = 0;
     $scope.limit = 5000;

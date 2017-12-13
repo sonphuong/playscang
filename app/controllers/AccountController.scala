@@ -159,4 +159,11 @@ class AccountController @Inject()(AccountService: AccountRepository, dBService: 
 
     )
   }
+
+  def getNumRows = Action{ implicit request =>
+    val numRows = AccountService.getNumRows()
+    val mapResult = scala.collection.mutable.Map[String, String]()
+    mapResult.put("numRows", numRows.toString)
+    Ok(Json.toJson(mapResult.toMap))
+  }
 }

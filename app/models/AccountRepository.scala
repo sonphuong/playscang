@@ -151,4 +151,19 @@ class AccountRepository @Inject()(dbapi: DBApi){
     }
   }
 
+
+  def getNumRows(): Int = {
+    var numRow = 0
+    try{
+      db.withConnection{ implicit connection =>
+        val sqlCheckExist = s"SELECT COUNT(1) AS num_row FROM $strTable"
+        numRow = SQL(sqlCheckExist).as(SqlParser.int("num_row").single)
+      }
+    }
+    catch{
+      case ex: Exception => Logger.error(s"${ex.getMessage}")
+
+    }
+    numRow
+  }
 }

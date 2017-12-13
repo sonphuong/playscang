@@ -2,16 +2,22 @@
 <script src="@routes.Assets.at("javascripts/domain/account/account.js")"></script>
 <div ng-controller="AccountController">
     <div class="row">
-        <div class="col-xs-8">
-            <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
-            <button type="button" class="btn btn-success" ng-click="loadMore()">Load more</button>
-            <input  type="text" maxlength="5" ng-model="num2gen" placeholder="enter < 50000">
-            <button type="button" class="btn btn-warning" ng-disabled="num2gen <= 0" ng-click="genRecords()">Generate</button>
+        <div class="col-xs-10">
+            <form class="form-inline">
+                <div class="form-group">
+                    <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
+                    <button type="button" class="btn btn-success" ng-click="loadMore()">Load more</button>
+                    <input  type="text"   class="form-control" maxlength="5" ng-model="num2gen" placeholder="enter < 50000">
+                    <button type="button" class="btn btn-warning" ng-disabled="num2gen <= 0" ng-click="genRecords()">Generate</button>
+                </div>
+            </form>
+
         </div>
-        <div class="col-xs-4">
-            <div class="progress">
+        <div class="col-xs-2">
+            <h4><span ng-cloak class="label label-default">Total rows: {{totalRows}}</span></h4>
+            @*<div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">70%</div>
-            </div>
+            </div>*@
         </div>
     </div>
     <div class="row">
@@ -20,12 +26,14 @@
         </div>
     </div>
     <div class="row">
-        <div id="myGrid"
-        ui-grid="gridOptions"
-        ui-grid-selection
-        ui-grid-pagination
-        ui-grid-exporter
-        class="grid gridStyle myGrid col-xs-12"></div>
+        <div class="col-xs-12">
+            <div id="myGrid"
+            ui-grid="gridOptions"
+            ui-grid-selection
+            ui-grid-pagination
+            ui-grid-exporter
+            class="grid gridStyle myGrid"></div>
+        </div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
