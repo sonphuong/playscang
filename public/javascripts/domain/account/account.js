@@ -312,6 +312,10 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
      * load 10000 records before user click Load More button
      */
     $scope.preLoadMore = function(offset,limit){
+        if(limit >= $scope.totalRows) {
+            limit = $scope.totalRows;
+            $scope.isReachLimit = 1;
+        }
         let url = `/account/getXAccounts/${offset}/${limit}`;
         $http.get(url).then(rp => {
             $scope.nextRecords =  rp.data;
@@ -361,11 +365,11 @@ let AccountController = function ($log, $scope, $q, $http, $filter, $timeout, i1
     $scope.setNumRows();
     $scope.num2gen = '';
     $scope.offset = 0;
-    $scope.limit = 5000;
+    $scope.limit = 1000;
     $scope.getData($scope.offset,$scope.limit);
     $scope.accountForm = $scope.getDefaultForm();
     $scope.isFormChecked = false;
-
+    $scope.isReachLimit = 0;
 };
 AccountController.$inject = ['$log', '$scope', '$q', '$http', '$filter','$timeout', 'i18nService', '$controller', 'uiGridConstants','$localStorage'];
 app.controller('AccountController', AccountController);

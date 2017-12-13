@@ -6,8 +6,8 @@
             <form class="form-inline">
                 <div class="form-group">
                     <button type="button" class="btn btn-warning" ng-click="log()">Log</button>
-                    <button type="button" class="btn btn-success" ng-click="loadMore()">Load more</button>
-                    <input  type="text"   class="form-control" maxlength="5" ng-model="num2gen" placeholder="enter < 50000">
+                    <button type="button" class="btn btn-success" ng-disabled="isReachLimit" ng-click="loadMore()">Load more</button>
+                    <input  type="text"   class="form-control"    maxlength="5" ng-model="num2gen" placeholder="enter < 50000">
                     <button type="button" class="btn btn-warning" ng-disabled="num2gen <= 0" ng-click="genRecords()">Generate</button>
                 </div>
             </form>
