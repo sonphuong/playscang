@@ -5,6 +5,7 @@
 # Default path will just redirect to the computer list
 GET      /                                                       controllers.AccountController.index
 GET      /account/getXAccounts/:offset/:limit                    controllers.AccountController.getXAccounts(offset: Int, limit: Int)
+POST      /account/upload                                        controllers.AccountController.upload
 GET      /account/getNumRows                                     controllers.AccountController.getNumRows
 GET      /account/genRecords/:num                                controllers.AccountController.genRecords(num: Int)
 GET      /account/index                                          controllers.AccountController.index

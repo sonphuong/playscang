@@ -3,18 +3,22 @@
   */
 package controllers
 
+import java.io.File
+import java.nio.file.Paths
 import javax.inject.Inject
 
 import infra.DBService
 import models.{Account, AccountRepository}
-import play.api.libs.json.Json
-import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-//for using form
 import play.api.data._
 import play.api.data.Forms._
+import play.api.Logger
+import play.api.libs.json.Json
+import play.api.mvc._
+import play.Environment
+
 
 
 
@@ -165,5 +169,21 @@ class AccountController @Inject()(AccountService: AccountRepository, dBService: 
     val mapResult = scala.collection.mutable.Map[String, String]()
     mapResult.put("numRows", numRows.toString)
     Ok(Json.toJson(mapResult.toMap))
+  }
+
+  def upload = Action(parse.temporaryFile) { request =>
+    val uploadPath = "tmp/avatar/"
+    //check path existed
+    val ckFile: File = new File(uploadPath)
+    if (!ckFile.exists()) {
+      ckFile.mkdir()
+    }
+
+    //move
+    //row.ref.moveTo(Play.application.getFile(s"/${path + newName}"))
+    val newName = "haha.jpg"
+    //request.body.moveTo(Environment.getFile(s"${uploadPath + newName}"))
+    request.body.moveTo(Paths.get(uploadPath), replace = true)
+    Ok("File uploaded")
   }
 }
